@@ -1,0 +1,311 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Table | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <h1 style="text-align:left;">
+                <b style="color: #588eaa;">Tables</b>
+                <span style="float:right;">
+                    <a class="btn add-new text-white" role="button" aria-pressed="true" style="float: right; background-color: #588eaa;" href="/table/addStatement/" ><i class="fa fa-plus"></i> Add New Items</a>
+                </span>
+            </h1>
+            <div>
+            
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Table</li>
+            </ol>
+          </nav>
+        <div>
+            <div class="row" style="height: auto;">
+                <div class="col-lg-3 mx-auto bg-white rounded shadow mb-3">
+                    <p style="text-align:left; font-size: 30px; margin-bottom: 0px; margin-top: 5px;">
+                        ฿{{profit|intcomma}}
+                        {% if profit_percent >= 0 %}
+                        <span style="float:right; font-size: 15px; margin-top: 15px; color: green;">
+                            +{{profit_percent|intcomma}}%
+                        </span>
+                        {% else %}
+                        <span style="float:right; font-size: 15px; margin-top: 15px; color: red;">
+                            {{profit_percent|intcomma}}%
+                        </span>
+                        {% endif %}
+                    </p>
+                    <div><a>Profit</a></div>
+                    <canvas id="Profit" width="400" height="200"></canvas>
+                </div>
+                <div class="col-lg-3 mx-auto bg-white rounded shadow mb-3">
+                    <p style="text-align:left; font-size: 30px; margin-bottom: 0px; margin-top: 5px;">
+                        ฿{{income|intcomma}}
+                        {% if income_percent >= 0 %}
+                        <span style="float:right; font-size: 15px; margin-top: 15px; color: green;">
+                            +{{income_percent|intcomma}}%
+                        </span>
+                        {% else %}
+                        <span style="float:right; font-size: 15px; margin-top: 15px; color: red;">
+                            {{income_percent|intcomma}}%
+                        </span>
+                        {% endif %}
+                    </p>
+                    <div>
+                        <a>Income</a>
+                        <canvas id="Income" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-3 mx-auto bg-white rounded shadow mb-3">
+                    <p style="text-align:left; font-size: 30px; margin-bottom: 0px; margin-top: 5px;">
+                        ฿{{outcome|intcomma}}
+                        {% if outcome_percent > 0 %}
+                        <span style="float:right; font-size: 15px; margin-top: 15px; color: red;">
+                            +{{outcome_percent|intcomma}}%
+                        </span>
+                        {% else %}
+                        <span style="float:right; font-size: 15px; margin-top: 15px; color: green;">
+                            {{outcome_percent|intcomma}}%
+                        </span>
+                        {% endif %}
+                    </p>
+                    <div>
+                        <a>Outcome</a>
+                        <canvas id="Outcome" width="400" height="200"></canvas>
+                    </div>
+                </div>
+                <div class="col-lg-2 mx-auto bg-white rounded shadow mb-3">
+                    <p style="text-align:left; font-size: 30px; margin-bottom: 0px; margin-top: 5px;">
+                        60
+                        <span style="float:right; font-size: 15px; margin-top: 15px;">
+                            +5.87%
+                        </span>
+                    </p>
+                    <div>
+                        <a>Sell</a>
+                        <canvas id="Sell" width="250" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div>
+                <div class="row">
+                    <div class="col-lg mx-auto bg-white rounded shadow">
+                        <div class="table-responsive" style="overflow-x: auto;">
+                            <table class="table">
+                                <thead class="thead-bordered">
+                                    <tr>
+                                        <th scope="col" style="min-width:100px;">Date</th>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Tags</th>
+                                        <th scope="col">Income</th>
+                                        <th scope="col">Outcome</th>
+                                        <th scope="col" style="width:50px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for statement in statement %}
+                                    <tr>
+                                        <th scope="row">{{statement.date|date:"d M y"}}</th>
+                                        <td>{{statement.item}}</td>
+                                        <td>{% for tag in statement.tags.all %} <a href="/tag/{{tag}}" class="mr-1 badge badge-info">#{{ tag }}</a>{% endfor %}</td>
+                                        {% if statement.income_amount != none %}
+                                        <td>{{statement.income_amount|intcomma}}</td>
+                                        <td>-</td>
+                                        {% else %}
+                                        <td>-</td>
+                                        <td>{{statement.outcome_amount|intcomma}}</td>
+                                        {% endif %}
+                                        <td><a class="delete" title="Delete" data-toggle="tooltip" href='/table/delete/{{statement.id}}'  onclick="return confirm('Are you sure you want to delete this item?');"><i class="material-icons">&#xE872;</i></a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+</body>
+</html>
+
+<script>
+        const ctx = document.getElementById('Profit').getContext('2d');
+        const Profit = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['', '', '', '', '',''],
+                datasets: [{
+                    label: '',
+                    data: {{profit_list|safe}},
+                    backgroundColor: [
+                        'rgba(0, 172, 180, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(0, 172, 180, 0.2)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+        const ctx_2 = document.getElementById('Income').getContext('2d');
+        const Income = new Chart(ctx_2, {
+            type: 'line',
+            data: {
+                labels: ['', '', '', '', '',''],
+                datasets: [{
+                    label: '',
+                    data: {{ income_list|safe }},
+                    backgroundColor: [
+                        'rgba(0, 149, 61, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(0, 149, 61, 0.2)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+        const ctx_3 = document.getElementById('Outcome').getContext('2d');
+        const Outcome = new Chart(ctx_3, {
+            type: 'line',
+            data: {
+                labels: ['', '', '', '', '',''],
+                datasets: [{
+                    label: '',
+                    data: {{ outcome_list|safe }},
+                    backgroundColor: [
+                        'rgba(255, 0, 0, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 0, 0, 0.2)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+        const ctx_4 = document.getElementById('Sell').getContext('2d');
+        const Sell = new Chart(ctx_4, {
+            type: 'line',
+            data: {
+                labels: ['', '', '', '', '',''],
+                datasets: [{
+                    label: '',
+                    data: {{ sell_list|safe }},
+                    backgroundColor: [
+                        'rgba(255, 185, 0, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 185, 0, 0.2)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display:false
+                        },
+                        ticks:{
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+	
+
+
+{% endblock %}

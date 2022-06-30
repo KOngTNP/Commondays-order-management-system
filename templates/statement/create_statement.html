@@ -1,0 +1,145 @@
+
+
+{% extends 'index.html' %}
+
+{% block title %}
+Login Here
+{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Create Statement | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    .bootstrap-tagsinput {
+        border: solid 1px #e6e6e6;
+        background-color: #e6e6e6;
+        border-radius:25px;
+    }
+    input{
+        background-color: #e6e6e6;
+    }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade.css' %}">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <h1 style="text-align:left;">
+                <b style="color: #588eaa;">Add New Statement</b>
+            </h1>
+            <div>
+            
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/dashboard/"></a>Dashboard</li>
+                <li class="breadcrumb-item"><a href="/table/">Table</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Add New Statement</li>
+            </ol>
+          </nav>
+          <form method="POST" onsubmit="return checkForm(this);">
+            {% csrf_token %}
+            <div class="toggle">
+                <input class="income" type="radio" name="option" value="income" id="sizeWeight" onclick="income();">
+                <label for="sizeWeight">I N C O M E</label>
+                <input class="outcome" type="radio" name="option" value="outcome" id="sizeDimensions" onclick="outcome();" checked>
+                <label for="sizeDimensions">O U T C O M E</label>
+            </div> 
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Date :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" type="date" name="date" id="datePicker" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                </span>
+            </div>
+
+        
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Items :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" type="text" name="item" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-lock" aria-hidden="true"></i>
+                </span>
+            </div>
+
+            <div class="income-amount" id="income" style="display:none">
+
+                <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Amount:</b></lable>
+                <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 5px;">
+                    <input class="input100" type="text" name="income_amount">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-usd" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="outcome-amount" id="outcome">
+
+                <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Amount:</b></lable>
+                <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 5px;">
+                    <input class="input100" type="text" name="outcome_amount">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-usd" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+                
+             <div class="form-group">
+                <label style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Tags :</b></label>
+                <p>Common Tags: 
+                    {% for mt in common_tags %}
+                        <a href="#" class="badge badge-success">{{mt}}</a>
+                    {% endfor %}
+                </p>
+                <input type="text" data-role="tagsinput" class="form-control" name="tags">
+            </div>
+            
+        
+            
+            <input type="submit" class="btn btn-info" name="myButton" value="Submit" style="background-color: #588eaa; border-color: #588eaa;">
+            <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+            <a style="color: #c80000;">{{ form.errors }}{{error}}</a>
+        </form>
+      </div>
+      <script>
+        function income(){
+        document.getElementById('income').style.display ='block';
+        document.getElementById('outcome').style.display = 'none';
+        }
+        function outcome(){
+        document.getElementById('outcome').style.display = 'block';
+        document.getElementById('income').style.display ='none';
+        }
+        $(document).ready( function() {
+            var now = new Date();
+        
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+
+        $('#datePicker').val(today);
+        });
+    </script>
+</body>
+</html>
+
+
+	
+
+
+{% endblock %}
