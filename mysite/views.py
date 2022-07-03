@@ -62,7 +62,7 @@ def createStock(request,product_id):
     return render(request,'product/detail_product.html',context)
 @login_required
 def table(request):
-    account = Account.objects.get(id = 'dbcd0991-f252-40b8-9583-470e7a05698c')
+    account = Account.objects.get(name = 'cash-flow')
     sell_list = [23,10,123,1234]
     last_income = Statement.objects.annotate(month=TruncMonth('date')).values('month').annotate(Sum('income_amount')).order_by()
     if len(last_income) >= 6:
@@ -123,18 +123,18 @@ def createStatement(request):
         form = CreateStatementForm(request.POST)
         if form.is_valid():
             form = form.save()
-            account = Account.objects.get(id = 'dbcd0991-f252-40b8-9583-470e7a05698c')
+            account = Account.objects.get(name = 'cash-flow')
             get_new_record = Statement.objects.filter(id = form.id)
             if form.option == "income" and form.income_amount != 0:
                 get_new_record.update(outcome_amount = None)
                 get_balance = account.balance + form.income_amount
                 get_income = account.all_income + form.income_amount
-                Account.objects.filter(id = 'dbcd0991-f252-40b8-9583-470e7a05698c').update(balance = get_balance, all_income = get_income)
+                Account.objects.filter(id = 'cash-flow').update(balance = get_balance, all_income = get_income)
             elif form.option == "outcome" and form.outcome_amount != 0:
                 get_new_record.update(income_amount = None)
                 get_balance = account.balance - form.outcome_amount
                 get_outcome = account.all_outcome + form.outcome_amount
-                Account.objects.filter(id = 'dbcd0991-f252-40b8-9583-470e7a05698c').update(balance = get_balance, all_outcome = get_outcome)
+                Account.objects.filter(id = 'cash-flow').update(balance = get_balance, all_outcome = get_outcome)
             else:
                 error = "The value should more than 0"
                 form = CreateStatementForm(initial={'user': user})
@@ -148,15 +148,15 @@ def createStatement(request):
 @login_required
 def deleteStatement(request,statement_id):
     get_statement_id = Statement.objects.get(id=statement_id)
-    account = Account.objects.get(id = 'dbcd0991-f252-40b8-9583-470e7a05698c')
+    account = Account.objects.get(name = 'cash-flow')
     if get_statement_id.income_amount != None and get_statement_id.outcome_amount == None:
         get_balance = account.balance - get_statement_id.income_amount
         get_income = account.all_income - get_statement_id.income_amount
-        Account.objects.filter(id = 'dbcd0991-f252-40b8-9583-470e7a05698c').update(balance = get_balance, all_income = get_income)
+        Account.objects.filter(name = 'cash-flow').update(balance = get_balance, all_income = get_income)
     elif get_statement_id.outcome_amount != None and get_statement_id.income_amount == None:
         get_balance = account.balance + get_statement_id.outcome_amount
         get_outcome = account.all_outcome - get_statement_id.outcome_amount
-        Account.objects.filter(id = 'dbcd0991-f252-40b8-9583-470e7a05698c').update(balance = get_balance, all_outcome = get_outcome)
+        Account.objects.filter(name = 'cash-flow').update(balance = get_balance, all_outcome = get_outcome)
     else:
         error = "The value should more than 0"
         return redirect("/table/")
