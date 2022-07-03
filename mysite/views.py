@@ -101,9 +101,10 @@ def table(request):
             outcome_percent = float(format(((outcome_list[-1]-outcome_list[-2])/outcome_list[-2])*100,".2f"))
         else:
             outcome_percent = outcome_list[-1]
-        if len(profit_list) > 1 and profit_list[-2] != 0:
+        if len(profit_list) > 1 and profit_list[-2] > 0:
             profit_percent = float(format(((profit_list[-1]-profit_list[-2])/profit_list[-2])*100,".2f"))
-            print(profit_list)
+        if len(profit_list) > 1 and profit_list[-2] < 0:
+            profit_percent = float(format(((profit_list[-1]+profit_list[-2])/profit_list[-2])*100,".2f"))
         else:
             print(profit_list)
             profit_percent = profit_list[-1]
