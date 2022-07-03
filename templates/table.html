@@ -116,7 +116,7 @@
                                     <tr>
                                         <th scope="row">{{statement.date|date:"d M y"}}</th>
                                         <td>{{statement.item}}</td>
-                                        <td>{% for tag in statement.tags.all %} <a href="/tag/{{tag}}" class="mr-1 badge badge-info">#{{ tag }}</a>{% endfor %}</td>
+                                        <td>{% for tag in statement.tags.all %} <a href="" class="mr-1 badge badge-info">#{{ tag }}</a>{% endfor %}</td>
                                         {% if statement.income_amount != none %}
                                         <td>{{statement.income_amount|intcomma}}</td>
                                         <td>-</td>
