@@ -129,12 +129,12 @@ def createStatement(request):
                 get_new_record.update(outcome_amount = None)
                 get_balance = account.balance + form.income_amount
                 get_income = account.all_income + form.income_amount
-                Account.objects.filter(id = 'cash-flow').update(balance = get_balance, all_income = get_income)
+                Account.objects.filter(name = 'cash-flow').update(balance = get_balance, all_income = get_income)
             elif form.option == "outcome" and form.outcome_amount != 0:
                 get_new_record.update(income_amount = None)
                 get_balance = account.balance - form.outcome_amount
                 get_outcome = account.all_outcome + form.outcome_amount
-                Account.objects.filter(id = 'cash-flow').update(balance = get_balance, all_outcome = get_outcome)
+                Account.objects.filter(name = 'cash-flow').update(balance = get_balance, all_outcome = get_outcome)
             else:
                 error = "The value should more than 0"
                 form = CreateStatementForm(initial={'user': user})
