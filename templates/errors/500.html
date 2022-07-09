@@ -1,0 +1,40 @@
+
+
+{% extends 'index.html' %}
+
+{% block title %}
+Login Here
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Error 500 | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade.css' %}">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5" style="text-align: center; margin-top: 220px;">
+        
+        <h style="color: black;">oops something went wrong - error code 500 </h>
+            <p class="mb-5 fs-lg-1  aos-init aos-animate" data-aos="fade-down" data-aos-delay="50" data-aos-duration="1000" style="color:dimgray">A server error occurred.  Please contact the administrator or try again.</p>
+    
+            <div class="row justify-content-center" style="margin-top: 100px;">
+    
+                    <div class="col-auto">
+                        <a href="/table/" class="btn btn-info" style="background-color: #588eaa; border-color: #588eaa; width: 160px;">Go to Homepage</a>
+                    </div>
+               
+            </div>
+      </div>
+
+</body>
+</html>
+{% endblock %}
