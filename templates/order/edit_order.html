@@ -1,0 +1,163 @@
+
+
+{% extends 'index.html' %}
+
+{% block title %}
+Login Here
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Edit Order | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade.css' %}">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <h1 style="text-align:left;">
+                <b style="color: #588eaa;">Edit Order</b>
+            </h1>
+            <div>
+            
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href=""></a>Dashboard</li>
+                <li class="breadcrumb-item"><a href="/order/" onclick="return confirm('Are you sure you want to discard your changes?');">Order</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Order</li>
+            </ol>
+          </nav>
+          <form method="POST" action="/order/update/{{get_order.id}}" onsubmit="return checkForm(this);">
+            {% csrf_token %}
+            <p hidden><input class="input100" type="text" name="posted_by" value="{{posted_by.id}}" required></p>
+            <div id="customer-list">
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>customer :</b></lable>
+            <div class="validate-input" style="margin-bottom: 30px; margin-top: 15px;">
+                <div class="input-group-prepend" style="height: 34px; margin-right: 0px;">
+                    <a class="input-group-text btn btn-light customer-form">
+                        +
+                    </a>
+                    <div class="this-class" style="width: 97%;">
+                        {% include "order/update_customer_list.html" %}
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Date :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" type="date" name="date" value="{{get_order.date |date:'Y-m-d'}}" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </span>
+            </div>
+            
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Platform :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <select name="platform" class="input100" style="border: none;" id="select_option" required>
+                    {% if get_order.platform == 'Shopee,Lazada' %}
+                    <option id="Shopee" value="Shopee,Lazada"selected>Shopee, Lazada</option> 
+                    <option value="Other">Other</option>
+                    {% else %}
+                    <option id="Shopee" value="Shopee,Lazada">Shopee, Lazada</option> 
+                    <option value="Other" selected>Other</option>
+                    {% endif %}
+                </select>
+
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                </span>
+            </div>
+
+            {% if get_order.platform == 'Shopee,Lazada' %}
+            <div id="sumprice">
+                <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Amount :</b></lable>
+                <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                    <input class="input100" type="float" min="0.01" value="{{get_order.sum_price}}" name="sum_price">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-usd" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+            {% else %}
+            <div id="sumprice">
+                <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Amount :</b></lable>
+                <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                    <input class="input100" type="float" min="0.01" name="sum_price">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-usd" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+
+            {% endif %}
+
+
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Account :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <select name="account" class="input100" style="border: none;" required>
+                    {% for account in get_account %}
+                        {% if get_order.account.id == account.id %}
+                            <option value="{{account.id}}" selected>{{account.name}}</option> 
+                        {% else %}
+                            <option value="{{account.id}}">{{account.name}}</option> 
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-bank" aria-hidden="true"></i>
+                </span>
+            </div>
+
+        
+            
+            <input type="submit" class="btn btn-info" name="myButton" value=" Next " style="background-color: #588eaa; border-color: #588eaa;">
+            <a href='/order/' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+            <a style="color: #c80000;">{{ form.errors }}{{error}}</a>
+        </form>
+        <div class="modal fade" id="modal-customer">
+            <div class="modal-dialog">
+                <div class="modal-content"></div>
+            </div>
+        </div>
+        
+      </div>
+
+      <script>
+
+        $(function() {
+            $("#select_option").change(function() {
+            if ($("#Shopee").is(":selected")) {
+                $("#sumprice").show();
+                
+            }
+            else {
+                $("#sumprice").hide();
+            }
+            }).trigger('change');
+        });
+
+    </script>
+</body>
+</html>
+
+
+	
+
+
+{% endblock %}

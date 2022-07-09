@@ -7,7 +7,7 @@ Login Here
 {% endblock %}
 
 {% load crispy_forms_tags %}
-
+{% load widget_tweaks %}
 {% block content %}
 {% load static %}
 
@@ -40,13 +40,17 @@ Login Here
             
             </div>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/dashboard/"></a>Dashboard</li>
-                <li class="breadcrumb-item"><a href="/table/">Table</a></li>
+                <li class="breadcrumb-item"><a href=""></a>Dashboard</li>
+                <li class="breadcrumb-item"><a href="/table/{{account_id}}/" onclick="return confirm('Are you sure you want to discard your changes?');">Account</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Add New Statement</li>
             </ol>
           </nav>
           <form method="POST" onsubmit="return checkForm(this);">
             {% csrf_token %}
+            <p hidden>
+                {% render_field form.posted_by class="form-control" %}
+                <input class="input100" type="text" name="account" value="{{account_id}}" required>
+            </p>
             <div class="toggle">
                 <input class="income" type="radio" name="option" value="income" id="sizeWeight" onclick="income();">
                 <label for="sizeWeight">I N C O M E</label>
@@ -59,7 +63,7 @@ Login Here
                 <input class="input100" type="date" name="date" id="datePicker" required>
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
-                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
                 </span>
             </div>
 
@@ -69,7 +73,7 @@ Login Here
                 <input class="input100" type="text" name="item" required>
                 <span class="focus-input100"></span>
                 <span class="symbol-input100">
-                    <i class="fa fa-lock" aria-hidden="true"></i>
+                    <i class="fa fa-info" aria-hidden="true"></i>
                 </span>
             </div>
 
@@ -99,18 +103,13 @@ Login Here
                 
              <div class="form-group">
                 <label style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Tags :</b></label>
-                <p>Common Tags: 
-                    {% for mt in common_tags %}
-                        <a href="#" class="badge badge-success">{{mt}}</a>
-                    {% endfor %}
-                </p>
                 <input type="text" data-role="tagsinput" class="form-control" name="tags">
             </div>
             
         
             
             <input type="submit" class="btn btn-info" name="myButton" value="Submit" style="background-color: #588eaa; border-color: #588eaa;">
-            <a href='/workflow/{{get_drawing_id.drawingNo}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+            <a href='/table/{{account_id}}/' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
             <a style="color: #c80000;">{{ form.errors }}{{error}}</a>
         </form>
       </div>

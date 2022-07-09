@@ -1,0 +1,147 @@
+
+
+{% extends 'index.html' %}
+
+{% block title %}
+Login Here
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Item List | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade.css' %}">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <h1 style="text-align:left;">
+                <b style="color: #588eaa;">Item List</b>
+            </h1>
+            <div>
+            
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href=""></a>Dashboard</li>
+                <li class="breadcrumb-item"><a href="/order/" onclick="return confirm('Are you sure you want to discard your changes?');">Order</a></li>
+                <li class="breadcrumb-item"><a href="/order/edit/{{order.id}}" onclick="return confirm('Are you sure you want to discard your changes?');">Edit Order</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Item List</li>
+            </ol>
+          </nav>
+          <div>
+            <div class="row">
+                <div class="col-lg mx-auto bg-white rounded shadow">
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table">
+                            <thead class="thead-bordered">
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col" style="text-align: center;">Stock</th>
+                                    <th scope="col" style="text-align: center;">color</th>
+                                    <th scope="col" style="text-align: center;">Size</th>
+                                    <th scope="col" style="text-align: center;">Quantity</th>
+                                    {% if order.platform == 'Other' %}
+                                    <th scope="col" style="text-align: center;">Price</th>
+                                    <th scope="col" style="text-align: center;">Total</th>
+                                    {% endif %}
+                                    <th scope="col" style="min-width:100px; text-align: center;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in get_item %}
+                                <tr>
+                                    <th scope="row"><B>{{item.stock.product.name}}</B></th>
+                                    <td style="text-align: center;">{{item.stock.description}}</td>
+                                    <td style="text-align: center;">{{item.stock.color}}</td>
+                                    <td style="text-align: center;">{{item.stock.size}}</td>
+                                    <td style="text-align: center;">{{item.quantity}}</td>
+                                    {% if order.platform == 'Other' %}
+                                    <td style="text-align: center;">{{item.price}}</td>
+                                    <td style="text-align: center;">{{item.total_price}}</td>
+                                    {% endif %}
+                                    <td style="min-width: 100px; text-align: center;">
+                                        <a class="edit" title="Edit" data-toggle="tooltip" href='/order/{{order.id}}/item/edit/{{item.id}}'><i class="material-icons">&#xE254;</i> </a>
+                                        <a class="delete" title="Delete" data-toggle="tooltip" href='/order/{{order.id}}/item/delete/{{item.id}}'  onclick="return confirm('Are you sure you want to delete this item?');"><i class="material-icons">&#xE872;</i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <span style="float:right;">
+                        <h6 style="margin-right: 20px;"><b>Sum Price : {{sum_price}}</b></h6>
+                    </span>
+                </div>
+            </div>
+        </div>
+          <form method="POST" onsubmit="return checkForm(this);">
+            {% csrf_token %}
+            <p hidden>{% render_field form.posted_by class="form-control" %}
+                {% render_field form.order class="form-control" %}
+            </p>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-md order-md-1">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Stock :</b></lable>
+                            <div class="wrap-input100 validate-input" style="margin-bottom: 40px;">
+                                <select name="stock" class="input100" style="border: none;" required>
+                                    {% for stock in get_stock %}
+                                    <option value="{{stock.id}}">{{stock}}</option> 
+                                    {% endfor %}
+                                </select>
+
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-archive" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Quantity :</b></lable>
+                            <div class="wrap-input100 validate-input" style="margin-bottom: 40px;">
+                                <input class="input100" type="number" name="quantity" min="1" required>
+                                <span class="focus-input100"></span>
+                                <span class="symbol-input100">
+                                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-info" name="myButton" value="Add Item" style="background-color: #588eaa; border-color: #588eaa;">
+            {% if get_item %}
+            <a href="/order" class="btn btn-info" style="background-color: #588eaa; border-color: #588eaa; float:right; width: 90px;">Done</a>
+            {% endif %}
+            <a style="color: #c80000;">{{ form.errors }}</a>
+        </form>
+      </div>
+
+      <script>
+        $(document).ready( function() {
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+
+        $('#datePicker').val(today);
+        });
+    </script>
+</body>
+</html>
+
+
+	
+
+
+{% endblock %}

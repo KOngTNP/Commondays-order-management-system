@@ -28,7 +28,7 @@ from mysite import views as mysiteViews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("register/", v.register, name="register"),
-    path("", mysiteViews.table, name="table"),
+    path("", mysiteViews.get_table, name="get_table"),
     path('', include("django.contrib.auth.urls")),
     path('', include('social_django.urls', namespace='social')),
     path('logout/',LogoutView.as_view(template_name=settings.LOGOUT_REDIRECT_URL),name='logout'),

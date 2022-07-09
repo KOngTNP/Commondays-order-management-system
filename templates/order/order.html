@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Order | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <h1 style="text-align:left;">
+                <b style="color: #588eaa;">Orders</b>
+                <span style="float:right;">
+                    <a class="btn add-new text-white" role="button" aria-pressed="true" style="float: right; background-color: #588eaa;" href="createOrder" ><i class="fa fa-plus"></i> Add New Order</a>
+                </span>
+            </h1>
+            <div>
+            
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Orders</li>
+            </ol>
+          </nav>
+        <div>
+        </div>
+            <div>
+                <div class="row">
+                    <div class="col-lg mx-auto bg-white rounded shadow">
+                        <div class="table-responsive" style="overflow-x: auto;">
+                            <table class="table">
+                                <thead class="thead-bordered">
+                                    <tr>
+                                        <th scope="col" style="min-width:100px;" >Date</th>
+                                        <th scope="col" style="min-width: 200px;">Customer name</th>
+                                        <th scope="col">Platform</th>
+                                        <th scope="col" style="text-align: center;">Amount</th>
+                                        <th scope="col" style="min-width:100px; text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in get_order %}
+                                    <tr>
+                                        <th scope="row"  style="min-width:100px;"><a href="/order/{{order.id}}/item"><B>{{order.date|date:"d M y"}}</B></a></th>
+                                        <td style="min-width: 200px;"><a href="/order/{{order.id}}/item">{{order.customer}}</a></td>
+                                        <td>{{order.platform}}</td>
+                                        <td style="text-align: center;">{{order.sum_price}}</td>
+                                        <td style="min-width:100px; text-align: center;">
+                                            <a class="edit" title="Edit" data-toggle="tooltip" href='/order/edit/{{order.id}}'><i class="material-icons">&#xE254;</i> </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      </div>
+</body>
+</html>
+
+
+	
+
+
+{% endblock %}

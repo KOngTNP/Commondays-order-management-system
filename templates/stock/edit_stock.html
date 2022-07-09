@@ -1,0 +1,128 @@
+
+
+{% extends 'index.html' %}
+
+{% block title %}
+Login Here
+{% endblock %}
+
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Edit Stock | COMMONDAYS</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/trade.css' %}">
+</head>
+<body>
+      <div id="content" class="p-4 p-md-5 pt-5">
+        <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
+            <h1 style="text-align:left;">
+                <b style="color: #588eaa;">Edit Stock</b>
+            </h1>
+            <div>
+            
+            </div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href=""></a>Dashboard</li>
+                <li class="breadcrumb-item"><a href="/product/" onclick="return confirm('Are you sure you want to discard your changes?');">Product</a></li>
+                <li class="breadcrumb-item"><a href="/product/detail/{{product.id}}" onclick="return confirm('Are you sure you want to discard your changes?');">Product Details</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Stock</li>
+            </ol>
+          </nav>
+          <form method="POST"  action="/product/detail/{{product.id}}/update/{{get_stock.id}}" onsubmit="return checkForm(this);">
+            {% csrf_token %}
+            <p hidden>
+                <input class="input100" type="text" name="posted_by" value="{{posted_by.id}}" required>
+                <input class="input100" type="text" name="product" value="{{get_stock.product.id}}" required>
+            </p>
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Description :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" type="text" name="description" value="{{get_stock.description}}" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-info" aria-hidden="true"></i>
+                </span>
+            </div>
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Color :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" type="text" name="color" value="{{get_stock.color}}" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-paint-brush" aria-hidden="true"></i>
+                </span>
+            </div>
+
+        
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Size :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <select name="size" class="input100" style="border: none;" value="{{get_stock.size}}" required>
+                    {% if get_stock.size == 'S'%}
+                    <option value="S" selected>S</option> 
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    {% elif get_stock.size == 'M' %}
+                    <option value="S">S</option> 
+                    <option value="M" selected>M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    {% elif get_stock.size == 'L' %}
+                    <option value="S">S</option> 
+                    <option value="M">M</option>
+                    <option value="L" selected>L</option>
+                    <option value="XL">XL</option>
+                    {% else %}
+                    <option value="S">S</option> 
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL" selected>XL</option>
+                    {% endif %}
+                </select>
+
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-arrows-h" aria-hidden="true"></i>
+                </span>
+            </div>
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Quantity :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" type="number" name="quantity" value="{{get_stock.quantity}}" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-industry" aria-hidden="true"></i>
+                </span>
+            </div>
+
+            <lable style="margin-left: 25px; font-size: 18px;"><b style="color: red; font-size: 20px;">* </b><b>Price :</b></lable>
+            <div class="wrap-input100 validate-input" style="margin-bottom: 40px; margin-top: 15px;">
+                <input class="input100" typ e="float" name="price" value="{{get_stock.price}}" required>
+                <span class="focus-input100"></span>
+                <span class="symbol-input100">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                </span>
+            </div>
+
+        
+            
+            <input type="submit" class="btn btn-info" name="myButton" value="Submit" style="background-color: #588eaa; border-color: #588eaa;">
+            <a href='/product/detail/{{product.id}}' class='btn btn-danger' onclick="return confirm('Are you sure you want to discard your changes?');">Back</a>
+            <a style="color: #c80000;">{{ form.errors }}{{error}}</a>
+        </form>
+      </div>
+</body>
+</html>
+
+
+	
+
+
+{% endblock %}

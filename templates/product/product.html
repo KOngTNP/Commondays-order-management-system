@@ -17,14 +17,14 @@
             <h1 style="text-align:left;">
                 <b style="color: #588eaa;">Products</b>
                 <span style="float:right;">
-                    <a class="btn add-new text-white" role="button" aria-pressed="true" style="float: right; background-color: #588eaa;" href="addProduct/" ><i class="fa fa-plus"></i> Add New Product</a>
+                    <a class="btn add-new text-white" role="button" aria-pressed="true" style="float: right; background-color: #588eaa;" href="addProduct/" ><i class="fa fa-plus"></i> Add Product</a>
                 </span>
             </h1>
             <div>
             
             </div>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="/dashboard/">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Products</li>
             </ol>
           </nav>
@@ -37,19 +37,22 @@
                             <table class="table">
                                 <thead class="thead-bordered">
                                     <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Created</th>
-                                        <th scope="col" style="width:50px;">Action</th>
+                                        <th scope="col" style="min-width: 200px;">Name</th>
+                                        <th scope="col" style="min-width: 200px;">Description</th>
+                                        <th scope="col" style="min-width: 100px;">Created</th>
+                                        <th scope="col" style="min-width:100px; text-align: center;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for product in product %}
                                     <tr>
-                                        <th scope="row"><a href="detail/{{product.id}}"><B>{{product.name}}</B></a></th>
-                                        <td><a href="detail/{{product.id}}">{{product.description}}</a></td>
-                                        <td>{{product.created_at|date:"d M y"}}</td>
-                                        <td><a class="delete" title="Delete" data-toggle="tooltip" href='/table/delete/{{statement.id}}'  onclick="return confirm('Are you sure you want to delete this item?');"><i class="material-icons">&#xE872;</i></a></td>
+                                        <th scope="row" style="min-width: 200px;"><a href="detail/{{product.id}}"><B>{{product.name}}</B></a></th>
+                                        <td style="min-width: 200px;"><a href="detail/{{product.id}}">{{product.description}}</a></td>
+                                        <td style="min-width: 100px;">{{product.created_at|date:"d M y"}}</td>
+                                        <td style="min-width: 100px; text-align: center;">
+                                            <a class="edit" title="Edit" data-toggle="tooltip" href='/product/edit/{{product.id}}'><i class="material-icons">&#xE254;</i> </a>
+                                            <!-- <a class="delete" title="Delete" data-toggle="tooltip" href='/product/delete/{{product.id}}'  onclick="return confirm('Are you sure you want to delete this item?');"><i class="material-icons">&#xE872;</i></a> -->
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

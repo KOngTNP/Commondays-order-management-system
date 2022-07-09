@@ -1,0 +1,24 @@
+<select class="" id="customerselect" name="customer" required>
+    <option value="">Select customer...</option>
+    {% for get_customer in get_customer %}
+        {% if get_customer.id == get_order.customer.id %}
+            <option value="{{get_customer.id}}" selected>{{ get_customer }}</option>
+        {% else %}
+            {% if get_last_add and get_customer.id == get_last_add.id %}
+                <option value="{{get_last_add.id}}" selected>{{ get_last_add }}</option>
+            {% endif %}
+            <option value="{{get_customer.id}}" >{{ get_customer }}</option>
+        {% endif %}
+    {% endfor %}
+</select>
+
+
+
+<script>
+    $(document).ready(function () {
+     $('#customerselect').selectize({
+         sortField: 'text'
+     });
+ });
+</script>
+
