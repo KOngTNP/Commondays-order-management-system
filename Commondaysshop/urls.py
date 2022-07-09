@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth.views import LogoutView, LoginView
+from django.contrib.auth import views as auth_views
 from django.urls import include
 from django.views.static import serve
 from django.conf.urls import url
@@ -32,7 +33,7 @@ urlpatterns = [
     path("", mysiteViews.get_table, name="get_table"),
     path('', include("django.contrib.auth.urls")),
     path('', include('social_django.urls', namespace='social')),
-    path('login/', LoginView.as_view(template_name='users/login.html'), name="login"),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/',LogoutView.as_view(template_name=settings.LOGOUT_REDIRECT_URL),name='logout'),
     path('', include('mysite.urls', namespace='mysite')),
     url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
