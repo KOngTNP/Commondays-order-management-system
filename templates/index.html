@@ -43,7 +43,7 @@
 			  <li>
 				<a href="/product/"><span class="fa fa-cart-plus mr-3"></span> Products</a>
 			</li>
-			{% if not user.is_superuser%}
+			{% if user.is_superuser%}
 			<li>
 				<a href="/admin/"><span class="fa fa-user mr-3"></span>Admin</a>
 			 </li>

@@ -41,11 +41,11 @@ def createProduct(request):
     else:
         form = CreateProductForm(initial={'posted_by': posted_by})
     return render(request,'product/create_product.html', {'form': form})
-
+@login_required
 def editProduct(request,product_id):
     get_product = Product.objects.get(id=product_id)
     return render(request, 'product/edit_product.html',{'get_product':get_product})
-
+@login_required
 def updateProduct(request,product_id):
     get_product = Product.objects.get(id=product_id)
     form = UpdateProductForm(request.POST, instance=get_product)
@@ -53,7 +53,7 @@ def updateProduct(request,product_id):
         form.save()
         return redirect("/product/")
     return render(request, 'product/edit_product.html',{'get_product':get_product, 'form':form})
-
+@login_required
 def deleteProduct(request,product_id):
     get_product = Product.objects.get(id=product_id)
     if request.user.is_superuser:
@@ -103,7 +103,7 @@ def updateStock(request,product_id,stock_id):
         form.save()
         return redirect(f"/product/detail/{product.id}")
     return render(request, 'stock/edit_stock.html',{'get_stock':get_stock, 'form':form, 'product':product, 'posted_by':posted_by})
-
+@login_required
 def order(request):
     get_order = Order.objects.all()
 
@@ -498,6 +498,7 @@ def deleteStatement(request,statement_id, account_id):
 
 
 #=======================================Ajax===============================================
+@login_required
 def create_customer(request):
     data = dict()
     posted_by = request.user
