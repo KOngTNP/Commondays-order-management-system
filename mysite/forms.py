@@ -13,7 +13,7 @@ class CreateStatementForm(ModelForm):
 class UpdateStatementForm(ModelForm):
     class Meta:
         model = Statement
-        fields = ['item','income_amount','outcome_amount','tags']
+        fields = ['item','income_amount','outcome_amount','tags','date']
 
 
 class CreateProductForm(ModelForm):
