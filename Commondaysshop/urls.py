@@ -25,6 +25,7 @@ from django.conf.urls.static import static
 from rest_framework.authtoken import  views
 from mysite import views as mysiteViews
 app_name = "users"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("register/", v.register, name="register"),
