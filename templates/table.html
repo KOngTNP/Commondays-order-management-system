@@ -21,10 +21,10 @@
       <div id="content" class="p-4 p-md-5 pt-5">
         <nav aria-label="breadcrumb" style="margin-bottom: 30px;">
             <h1 style="text-align:left;">
-                <div class="btn-group dropright">
-                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-right:30px; color: #588eaa; font-size: 35px;">
+                <div class="btn-group dropdown dropright">
+                    <button class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-right:30px; color: #588eaa; font-size: 35px;">
                         <b>{{account.name}}</b>
-                    </a>
+                    </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         {% for all_account in get_all_account %}
                             {% if all_account.id == account.id  %}
