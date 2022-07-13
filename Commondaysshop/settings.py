@@ -28,7 +28,7 @@ LOGIN_REDIRECT_URL = '/table/'
 SECRET_KEY = 'django-insecure-662_l=-=9u67&8q!^y0jt1%jfn=3_4175l$zn3(v1p#l4rc=yw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','commondays.herokuapp.com']
 
