@@ -47,7 +47,8 @@ size_choices = (
         ('S', 'S'),
         ('M', 'M'),
         ('L', 'L'),
-        ('XL', 'XL')
+        ('XL', 'XL'),
+        ('F', 'F')
         )
 
 class Stock(models.Model):

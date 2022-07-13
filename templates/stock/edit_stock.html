@@ -69,21 +69,30 @@ Login Here
                     <option value="M">M</option>
                     <option value="L">L</option>
                     <option value="XL">XL</option>
+                    <option value="F">F</option>
                     {% elif get_stock.size == 'M' %}
                     <option value="S">S</option> 
                     <option value="M" selected>M</option>
                     <option value="L">L</option>
                     <option value="XL">XL</option>
+                    <option value="F">F</option>
                     {% elif get_stock.size == 'L' %}
                     <option value="S">S</option> 
                     <option value="M">M</option>
                     <option value="L" selected>L</option>
                     <option value="XL">XL</option>
-                    {% else %}
+                    <option value="F">F</option>
+                    {% elif get_stock.size == 'XL' %}
                     <option value="S">S</option> 
                     <option value="M">M</option>
                     <option value="L">L</option>
                     <option value="XL" selected>XL</option>
+                    <option value="F">F</option>
+                    {% else %}<option value="S">S</option> 
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="F" selected>F</option>
                     {% endif %}
                 </select>
 
