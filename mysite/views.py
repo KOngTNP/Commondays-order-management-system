@@ -345,13 +345,15 @@ def table(request,account_id):
 
     last_sell = Item.objects.annotate(month=TruncMonth('created_at')).values('month').annotate(Sum('quantity')).order_by()
     if len(last_sell) >= 6:
-        last_sell = last_sell[-6:]
+        last_sell = last_sell[:6]
     last_income = Statement.objects.filter(account=account).annotate(month=TruncMonth('date')).values('month').annotate(Sum('income_amount')).order_by()
     if len(last_income) >= 6:
-        last_income = last_income[-6:]
+        last_income = last_income[:6]
     last_outcome = Statement.objects.filter(account=account).annotate(month=TruncMonth('date')).values('month').annotate(Sum('outcome_amount')).order_by()
     if len(last_outcome) >= 6:
-        last_outcome = last_outcome[-6:]
+        last_outcome = last_outcome[:6]
+
+    print(last_outcome)
 
     sell = Item.objects.aggregate(Sum('quantity'))
     sell = list(sell.values())[0]

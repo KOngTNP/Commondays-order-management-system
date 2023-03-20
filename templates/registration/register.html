@@ -25,7 +25,7 @@ Create an Account
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="../Commondaysshop/statics/images/login.png" alt="IMG">
+					<img src="{% static 'images/login.png' %}" alt="IMG">
 				</div>
 				<form method="post" class="login100-form validate-form" onsubmit="checkForm(this); requestIdleCallback">
 					{% csrf_token %}
@@ -70,7 +70,7 @@ Create an Account
 
 					<div class="container-login100-form-btn">
 						
-						<button type="submit" class="login100-form-btn" name="myButton" value="Submit">
+						<button type="submit" class="login100-form-btn" name="myButton" value="Submit" style="margin-bottom: 50px;">
 							Register
 						</button>
 						<input type="hidden" value="{{ request.META.HTTP_REFERER }}" name="next" />

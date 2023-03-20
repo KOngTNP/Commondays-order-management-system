@@ -15,7 +15,7 @@ def register(request):
 			data = request.POST
 			# get_user = User.objects.get(username = username)
 			# get_user_staff = User.objects.filter(username = username).update(is_active = False)
-			return HttpResponseRedirect(reverse('mysite:homepage'))
+			return redirect("/table/")
 	else:
 		form = RegisterForm()
 

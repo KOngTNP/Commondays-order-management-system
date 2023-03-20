@@ -35,7 +35,7 @@ Login Here
 					</span>
 					
 					<div class="wrap-input100 validate-input" data-validate = "Valid username is required:">
-						<input class="input100" type="text" name="username" placeholder="Username">
+						<input class="input100" type="text" name="username" placeholder="Username" value="admin">
 						
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -44,7 +44,7 @@ Login Here
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password">
+						<input class="input100" type="password" name="password" placeholder="Password" value="admin">
 						
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
@@ -59,6 +59,12 @@ Login Here
 						</button>
 					</div>
 					<a style="color: #c80000;">{{ form.non_field_errors }}</a>
+					<div class="text-center p-t-136">
+						<a class="txt2" href="/register">
+							Register
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
 				</form>
 			</div>
 		</div>
