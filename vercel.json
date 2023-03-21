@@ -9,7 +9,7 @@
         "src": "build_files.sh",
         "use": "@vercel/static-build",
         "config": {
-            "distDri": "staticfiles_build"
+            "destDri": "staticfiles_build"
         }
     }
     ],
