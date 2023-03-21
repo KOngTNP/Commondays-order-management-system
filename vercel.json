@@ -1,5 +1,8 @@
 {   
     "version":2,
+    "generate": {
+        "dir": 'public'
+      },
     "builds": [{
         "src": "Commondaysshop/wsgi.py",
         "use": "@vercel/python",
