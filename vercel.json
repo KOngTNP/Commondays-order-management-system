@@ -1,14 +1,13 @@
 {   
     "version":2,
-    "generate": {
-        "dir": "public"
-      },
     "builds": [{
+        
         "src": "Commondaysshop/wsgi.py",
         "use": "@vercel/python",
         "config": { "maxLambdaSize": "15mb","runtime": "python3.7" }
     },
     {
+        "dir": "public",
         "src": "build_files.sh",
         "use": "@vercel/static-build",
         "config": {
