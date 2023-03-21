@@ -33,6 +33,8 @@ urllib3
 whitenoise
 dj-database-url
 db-sqlite3
+sqlite-devel
+libsqlite3-dev
 python-decouple
 whitenoise
 django-widget-tweaks
