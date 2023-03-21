@@ -1,7 +1,7 @@
 {   
     "version":2,
     "generate": {
-        "dir": 'public'
+        "dir": "public"
       },
     "builds": [{
         "src": "Commondaysshop/wsgi.py",
