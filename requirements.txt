@@ -32,7 +32,6 @@ tzlocal
 urllib3
 whitenoise
 dj-database-url
-pysqlite
 python-decouple
 whitenoise
 django-widget-tweaks
