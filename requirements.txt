@@ -32,7 +32,7 @@ tzlocal
 urllib3
 whitenoise
 dj-database-url
-# psycopg2
+pysqlite3
 python-decouple
 whitenoise
 django-widget-tweaks
