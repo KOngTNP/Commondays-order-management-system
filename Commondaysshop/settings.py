@@ -140,9 +140,9 @@ STATIC_URL = '/static/'
 STATIC_ROOT  = BASE_DIR / "staticfiles_build" / "static"
 
 # Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'Commondaysshop/statics'),
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'Commondaysshop/statics'),
+# ]
 
 #  Add configuration for static files storage using whitenoise
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
