@@ -28,7 +28,7 @@ LOGIN_REDIRECT_URL = '/table/'
 SECRET_KEY = 'django-insecure-662_l=-=9u67&8q!^y0jt1%jfn=3_4175l$zn3(v1p#l4rc=yw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','commondays.herokuapp.com','.now.sh','.vercel.app']
 
@@ -137,12 +137,10 @@ ROOT_URLCONF = 'Commondaysshop.urls'
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_URL = '/static/'
-STATIC_ROOT  = BASE_DIR / "staticfiles_build" / "static"
 
 # Extra lookup directories for collectstatic to find static files
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'Commondaysshop/statics'),
-# ]
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 #  Add configuration for static files storage using whitenoise
 # STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
